@@ -169,79 +169,134 @@ void PhysicsPlayground::Update()
 	Scene::AdjustScrollOffset();
 }
 static bool leap = false;
-static float keydown = 0.0, gravity = -4.0, jump = 0.0;
+static int speedDelay = 0;
+static float HorizVelMod = 0.0, gravity = -4.0, PlayerVertVel = 0.0,runMode=1.0;
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	float speed = 2.f;
+	float baseSpeed = 3.f;
 	bool sprint = false;
+	
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
-	
-	
-	if (Input::GetKey(Key::Shift))
-	{
+	if (runMode==1.0){
+		if (Input::GetKey(Key::Shift))
+		{
 		sprint = true;
-	}
+		}
 
-	if (Input::GetKey(Key::A))
-	{
-		if ((sprint == true)&&(keydown>-3.0)) {
-			keydown -= 0.01;
-			if (keydown > -2.0) {
-				keydown -= 0.02;
+		if (Input::GetKey(Key::A))
+		{
+			if ((sprint == true)&&(HorizVelMod >-3.0)) {
+				HorizVelMod -= 0.01;
+				if (HorizVelMod > -2.0) {
+				HorizVelMod -= 0.02;
+				}
+		}
+		else if ((sprint != true) && (HorizVelMod < -2.0)) { HorizVelMod += 0.01; }
+			if (HorizVelMod > -2.0) {
+			HorizVelMod -= 0.01;
 			}
 		}
-		else if ((sprint != true) && (keydown < -2.0)) { keydown += 0.01; }
-		if (keydown > -2.0) {
-			keydown -= 0.01;
-		}
-	}
-	else if (Input::GetKey(Key::D) == false) {
-		if (keydown < 0) {
-			keydown += 0.01;
-		}
-	}
-
-
-
-	if (Input::GetKey(Key::D))
-	{
-		if ((sprint == true) && (keydown <3.0)) {
-			keydown += 0.01;
-			if (keydown < 2.0) {
-				keydown += 0.02;
+		else if (Input::GetKey(Key::D) == false) {
+			if (HorizVelMod < 0) {
+			HorizVelMod += 0.01;
 			}
 		}
-		else if ((sprint!=true)&&(keydown>2.0)){ keydown-= 0.01; }
-		if (keydown < 2.0) {
-		keydown += 0.01;
-		}
-	}
-	else if (Input::GetKey(Key::A) == false) {
-		if (keydown > 0) {
-			keydown -= 0.01;
-		}
-	}
-	//code is static so that it doesn't reset every frame, stopping the jump 
 
-	
-	if ((jump < -18) && (leap == true)) {
+
+
+		if (Input::GetKey(Key::D))
+		{
+		if ((sprint == true) && (HorizVelMod <3.0)) {
+			HorizVelMod += 0.01;
+			if (HorizVelMod < 2.0) {
+				HorizVelMod += 0.02;
+			}
+		}
+		else if ((sprint!=true)&&(HorizVelMod >2.0)){ HorizVelMod -= 0.01; }
+			if (HorizVelMod < 2.0) {
+			HorizVelMod += 0.01;
+			}
+		}
+		else if (Input::GetKey(Key::A) == false) {
+			if (HorizVelMod > 0) {
+			HorizVelMod -= 0.01;
+			}
+		}
+	}
+	if (runMode == -1.0) {
+		if (Input::GetKey(Key::D))
+		{
+			if (HorizVelMod < 1.0) {
+				HorizVelMod += (1.0 - HorizVelMod) / 8;
+			}
+			if ((HorizVelMod > 0.999999)&&(speedDelay!=25)) {
+				speedDelay++;
+				if (speedDelay == 25) {
+					HorizVelMod += 0.00001;
+				}
+			}
+			if ((HorizVelMod > 1.0)&&(HorizVelMod<2.0)) {
+				HorizVelMod += (HorizVelMod-1) / 8;
+			}			
+		}
+		else if (Input::GetKey(Key::A) == false) {
+			if (HorizVelMod > 0) {
+				HorizVelMod -= 0.01;
+				speedDelay = 0;
+			}
+		}
+		if (Input::GetKey(Key::A))
+		{
+			
+			if (HorizVelMod >-1.0) {
+				HorizVelMod += (-1.0 - HorizVelMod) / 8;
+			}
+			if ((HorizVelMod < -0.999999) && (speedDelay != 25)) {
+				speedDelay++;
+				if (speedDelay == 25) {
+					HorizVelMod -= 0.00001;
+				}
+			}
+			if ((HorizVelMod < -1.0) && (HorizVelMod > -2.0)) {
+				HorizVelMod -= (-1.0-HorizVelMod ) / 8;
+			}
+		}
+		else if (Input::GetKey(Key::D) == false) {
+			if (HorizVelMod <0) {
+				HorizVelMod += 0.01;
+					speedDelay = 0;				
+			}
+		}
+	}
+	std::cout << speedDelay <<" ";
+	std::cout << HorizVelMod << std::endl;
+	//code is static so that it doesn't reset every frame, stopping the jump you 
+	//adjusts vertical velocity while in the jump 
+	//resets jump once touching ground 
+	if (leap == true) {
+		PlayerVertVel += gravity / 50;
+	}
+	if ((PlayerVertVel < -18) && (leap == true)) {
 		leap = false;
-		jump = 0.0;
+		PlayerVertVel = 0.0;
 	}
-	//adjust horizontal velocity
-	//multiplying keydown by gravity to scale vector so that running speed is not decreased 
-	vel += b2Vec2(keydown*(std::abs(gravity)),gravity+jump);
+	//adjust velocity in both X and Y creating a velocity vector then apply vector to players velocity 
+	vel += b2Vec2(HorizVelMod* baseSpeed,gravity+ PlayerVertVel);
 	player.GetBody()->SetLinearVelocity(vel);
 	
 }
-
+   // jumping mechanic 
 void PhysicsPlayground::KeyboardDown()
 {
 	if (((Input::GetKey(Key::W)) && (leap == false)) || (Input::GetKey(Key::Space))&&(leap==false))
 	{
 		leap = true;
-		jump = 25.f;
+		PlayerVertVel = 25.f;
+	}
+	if (Input::GetKey(Key::M)) {
+		runMode *= -1;
+		HorizVelMod = 0.0;
 	}
 }
 
