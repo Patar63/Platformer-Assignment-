@@ -92,7 +92,7 @@ public:
 	static float anisotropyAmount;
 private:
 	//Texture file name
-	std::string m_fileName = "";
+	std::string m_fileName = "Assignment_Standing";
 	//Filetype is png
 	std::string m_fileType = ".png";
 

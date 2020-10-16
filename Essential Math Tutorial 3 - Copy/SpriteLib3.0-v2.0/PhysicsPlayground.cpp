@@ -60,10 +60,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(0.5f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
 	}
-	
+
 	//Link entity
 	{
-		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
+		/*Scene::CreatePhysicsSprite(m_sceneReg, "Assignment_Standing", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
 		auto entity = ECS::CreateEntity();
 		ECS::SetIsMainPlayer(entity, true);
@@ -74,7 +74,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 
 		//Sets up the components
-		std::string fileName = "LinkStandby.png";
+		std::string fileName = "Assignment_Standing.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
@@ -170,36 +170,36 @@ void PhysicsPlayground::Update()
 }
 static bool leap = false;
 static int speedDelay = 0;
-static float HorizVelMod = 0.0, gravity = -4.0, PlayerVertVel = 0.0,runMode=1.0;
+static float HorizVelMod = 0.0, gravity = -4.0, PlayerVertVel = 0.0, runMode = 1.0;
 void PhysicsPlayground::KeyboardHold()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	float baseSpeed = 3.f;
 	bool sprint = false;
-	
+
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
-	if (runMode==1.0){
+	if (runMode == 1.0) {
 		if (Input::GetKey(Key::Shift))
 		{
-		sprint = true;
+			sprint = true;
 		}
 
 		if (Input::GetKey(Key::A))
 		{
-			if ((sprint == true)&&(HorizVelMod >-3.0)) {
+			if ((sprint == true) && (HorizVelMod > -3.0)) {
 				HorizVelMod -= 0.01;
 				if (HorizVelMod > -2.0) {
-				HorizVelMod -= 0.02;
+					HorizVelMod -= 0.02;
 				}
-		}
-		else if ((sprint != true) && (HorizVelMod < -2.0)) { HorizVelMod += 0.01; }
+			}
+			else if ((sprint != true) && (HorizVelMod < -2.0)) { HorizVelMod += 0.01; }
 			if (HorizVelMod > -2.0) {
-			HorizVelMod -= 0.01;
+				HorizVelMod -= 0.01;
 			}
 		}
 		else if (Input::GetKey(Key::D) == false) {
 			if (HorizVelMod < 0) {
-			HorizVelMod += 0.01;
+				HorizVelMod += 0.01;
 			}
 		}
 
@@ -207,20 +207,20 @@ void PhysicsPlayground::KeyboardHold()
 
 		if (Input::GetKey(Key::D))
 		{
-		if ((sprint == true) && (HorizVelMod <3.0)) {
-			HorizVelMod += 0.01;
-			if (HorizVelMod < 2.0) {
-				HorizVelMod += 0.02;
+			if ((sprint == true) && (HorizVelMod < 3.0)) {
+				HorizVelMod += 0.01;
+				if (HorizVelMod < 2.0) {
+					HorizVelMod += 0.02;
+				}
 			}
-		}
-		else if ((sprint!=true)&&(HorizVelMod >2.0)){ HorizVelMod -= 0.01; }
+			else if ((sprint != true) && (HorizVelMod > 2.0)) { HorizVelMod -= 0.01; }
 			if (HorizVelMod < 2.0) {
-			HorizVelMod += 0.01;
+				HorizVelMod += 0.01;
 			}
 		}
 		else if (Input::GetKey(Key::A) == false) {
 			if (HorizVelMod > 0) {
-			HorizVelMod -= 0.01;
+				HorizVelMod -= 0.01;
 			}
 		}
 	}
@@ -230,15 +230,15 @@ void PhysicsPlayground::KeyboardHold()
 			if (HorizVelMod < 1.0) {
 				HorizVelMod += (1.0 - HorizVelMod) / 8;
 			}
-			if ((HorizVelMod > 0.999999)&&(speedDelay!=25)) {
+			if ((HorizVelMod > 0.999999) && (speedDelay != 25)) {
 				speedDelay++;
 				if (speedDelay == 25) {
 					HorizVelMod += 0.00001;
 				}
 			}
-			if ((HorizVelMod > 1.0)&&(HorizVelMod<2.0)) {
-				HorizVelMod += (HorizVelMod-1) / 8;
-			}			
+			if ((HorizVelMod > 1.0) && (HorizVelMod < 2.0)) {
+				HorizVelMod += (HorizVelMod - 1) / 8;
+			}
 		}
 		else if (Input::GetKey(Key::A) == false) {
 			if (HorizVelMod > 0) {
@@ -248,8 +248,8 @@ void PhysicsPlayground::KeyboardHold()
 		}
 		if (Input::GetKey(Key::A))
 		{
-			
-			if (HorizVelMod >-1.0) {
+
+			if (HorizVelMod > -1.0) {
 				HorizVelMod += (-1.0 - HorizVelMod) / 8;
 			}
 			if ((HorizVelMod < -0.999999) && (speedDelay != 25)) {
@@ -259,17 +259,17 @@ void PhysicsPlayground::KeyboardHold()
 				}
 			}
 			if ((HorizVelMod < -1.0) && (HorizVelMod > -2.0)) {
-				HorizVelMod -= (-1.0-HorizVelMod ) / 8;
+				HorizVelMod -= (-1.0 - HorizVelMod) / 8;
 			}
 		}
 		else if (Input::GetKey(Key::D) == false) {
-			if (HorizVelMod <0) {
+			if (HorizVelMod < 0) {
 				HorizVelMod += 0.01;
-					speedDelay = 0;				
+				speedDelay = 0;
 			}
 		}
 	}
-	std::cout << speedDelay <<" ";
+	std::cout << speedDelay << " ";
 	std::cout << HorizVelMod << std::endl;
 	//code is static so that it doesn't reset every frame, stopping the jump you 
 	//adjusts vertical velocity while in the jump 
@@ -282,14 +282,14 @@ void PhysicsPlayground::KeyboardHold()
 		PlayerVertVel = 0.0;
 	}
 	//adjust velocity in both X and Y creating a velocity vector then apply vector to players velocity 
-	vel += b2Vec2(HorizVelMod* baseSpeed,gravity+ PlayerVertVel);
+	vel += b2Vec2(HorizVelMod * baseSpeed, gravity + PlayerVertVel);
 	player.GetBody()->SetLinearVelocity(vel);
-	
+
 }
-   // jumping mechanic 
+// jumping mechanic 
 void PhysicsPlayground::KeyboardDown()
 {
-	if (((Input::GetKey(Key::W)) && (leap == false)) || (Input::GetKey(Key::Space))&&(leap==false))
+	if (((Input::GetKey(Key::W)) && (leap == false)) || (Input::GetKey(Key::Space)) && (leap == false))
 	{
 		leap = true;
 		PlayerVertVel = 25.f;

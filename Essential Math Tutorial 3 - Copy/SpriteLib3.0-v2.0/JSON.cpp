@@ -1,9 +1,9 @@
 #include "JSON.h"
 
-nlohmann::json File::LoadJSON(std::string fileName)
+nlohmann::json File::LoadJSON(std::string linkAnimations)
 {
 	//Opens input file stream 
-	std::ifstream i(File::defaultDir + fileName);
+	std::ifstream i(File::defaultDir + linkAnimations);
 	//Creates a json object
 	nlohmann::json j;
 
@@ -24,9 +24,9 @@ nlohmann::json File::LoadJSON(std::string fileName)
 	return j;
 }
 
-void File::CreateJSON(std::string fileName, nlohmann::json j)
+void File::CreateJSON(std::string linkAnimations, nlohmann::json j)
 {
-	std::ofstream o(File::defaultDir + fileName);
+	std::ofstream o(File::defaultDir + linkAnimations);
 
 	//outputs the json object to the json file
 	o << j;

@@ -64,7 +64,7 @@ void Framebuffer::Init()
 	{
 		//because we have depth, we include depth buffer bit into the clearflag
 		m_clearFlag |= GL_DEPTH_BUFFER_BIT;
-		
+
 		//Create depth texture
 		m_depth.m_texture.m_target = GL_TEXTURE_2D;
 
@@ -325,3 +325,4 @@ void Framebuffer::DrawFullscreenQuad()
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(GL_NONE);
 }
+
