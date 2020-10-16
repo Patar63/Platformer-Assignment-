@@ -24,6 +24,10 @@ public:
 
 	virtual void Update();
 
+	void AdjustScrollOffset();
+	void CreateCameraEntity(bool mainCamera, float windowWidth, float windowHeight, float left, float right, float bottom, float top, 
+								float zNear, float zFar, float aspectRatio, bool vertScroll=false, bool horizScroll=false);
+
 	//Gamepad Input
 	//Because these are virtual you can override them in your inherited classes.
 	//The same way you do for Update().
@@ -76,7 +80,7 @@ protected:
 	std::string m_name = "Default Name";
 private:
 	//Hello world entity number
-	int m_helloWorldSign;
+	int m_helloWorldSign = 0;
 };
 
 #endif // !__SCENE_H__

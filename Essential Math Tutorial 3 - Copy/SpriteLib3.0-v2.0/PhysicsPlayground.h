@@ -11,8 +11,6 @@ public:
 
 	void Update() override;
 
-	void AdjustScrollOffset();
-
 	//Input overrides
 	void KeyboardHold() override;
 	void KeyboardDown() override;

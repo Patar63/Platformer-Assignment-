@@ -10,6 +10,7 @@
 #include "RenderingSystem.h"
 #include "AnimationSystem.h"
 #include "PhysicsSystem.h"
+#include "Player.h"
 #include "MainEntities.h"
 #include "Scenes.h"
 #include "UI.h"

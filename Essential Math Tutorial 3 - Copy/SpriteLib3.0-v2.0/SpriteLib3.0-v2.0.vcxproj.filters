@@ -162,7 +162,13 @@
     <ClInclude Include="FirstCreation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AnimationSpritePlayground.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Scenes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsPlayground.h">
@@ -186,9 +192,6 @@
       <Filter>ImGui</Filter>
     </ClCompile>
     <ClCompile Include="AnimationController.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BackEnd.cpp">
@@ -309,6 +312,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FirstCreation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationSpritePlayground.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsPlayground.cpp">
